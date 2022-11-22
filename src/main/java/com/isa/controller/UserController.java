@@ -4,12 +4,14 @@ import com.isa.model.User;
 import com.isa.model.dto.LoginDTO;
 import com.isa.model.dto.PasswordChangeDTO;
 import com.isa.model.dto.UserDTO;
+import com.isa.security.TokenUtil;
 import com.isa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -19,11 +21,16 @@ import java.util.List;
 @RequestMapping("api/users")
 public class UserController {
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
     private UserService userService ;
+
+    @Autowired
+    private TokenUtil tokenUtil;
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<User> findByID(@PathVariable int id){
@@ -59,15 +66,18 @@ public class UserController {
     }
 
     @PostMapping(value = "/login", consumes = "application/json")
-    public ResponseEntity<String> login(@RequestBody LoginDTO userDto) {
+    public ResponseEntity<?> login(@RequestBody LoginDTO userDto) {
 
         User user = userService.findOneByEmail(userDto.getEmail());
 
-        if(user.getPassword().equals(userDto.getPassword())){
-            return new ResponseEntity<>("Uspesno logovan", HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("User nije pronadjen", HttpStatus.NOT_FOUND);
+        if(user == null  || !passwordEncoder.matches(userDto.getPassword(), user.getPassword())){
+            return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
         }
+
+        String token = tokenUtil.generateToken(user.getEmail(), user.getUserType().toString());
+        LoginDTO responseDTO = new LoginDTO();
+        responseDTO.setToken(token);
+        return ResponseEntity.ok(responseDTO);
     }
 
 //    @PutMapping(value = "{id}/passwordChange", consumes = "application/json")
