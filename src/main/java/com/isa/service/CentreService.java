@@ -1,7 +1,6 @@
 package com.isa.service;
 
 import com.isa.Repository.CentreRepository;
-import com.isa.exception.UserNotFoundException;
 import com.isa.model.Centre;
 import com.isa.model.dto.CentreDTO;
 import org.springframework.stereotype.Service;
@@ -37,13 +36,13 @@ public class CentreService {
         return  centreRepository.save(centre);
     }
 
-    public Centre findCentreById(int id){
-        return  centreRepository.findCentreById(id).orElseThrow(() -> new UserNotFoundException("User is not found !"));
-    }
+//    public Centre findCentreById(int id){
+//        return  centreRepository.findCentreById(id).orElseThrow(() -> new UserNotFoundException("User is not found !"));
+//    }
 
-    public void deleteCentre(int id){
-        centreRepository.deleteCentreById(id);
-    }
+//    public void deleteCentre(int id){
+//        centreRepository.deleteCentreById(id);
+//    }
 
     public Optional<Centre> findCentreByName(String name){
         return centreRepository.findCentreByName(name);

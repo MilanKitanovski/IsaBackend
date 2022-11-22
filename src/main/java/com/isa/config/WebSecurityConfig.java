@@ -2,6 +2,7 @@ package com.isa.config;
 
 
 import com.isa.security.RestAuthenticationEntryPoint;
+import com.isa.security.TokenAuthenticationFilter;
 import com.isa.security.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
