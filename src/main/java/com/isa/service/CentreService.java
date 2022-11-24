@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 public class CentreService {
 
-    private final CentreRepository centreRepository;
+    private CentreRepository centreRepository;
 
     public CentreService(CentreRepository centreRepository) {
         this.centreRepository = centreRepository;
@@ -75,11 +75,8 @@ public class CentreService {
     }
 
     }
-
+*/
     public List<Centre> getAllCenters(){
-        return centreRepostirory.findAll();
-    }*/
-
-
-
+        return centreRepository.getAll();
+    }
 }
