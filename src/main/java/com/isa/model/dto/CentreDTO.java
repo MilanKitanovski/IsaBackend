@@ -12,13 +12,15 @@ public class CentreDTO extends Entity {
     private String description;
     private int centreGradeId;
 
-    public CentreDTO(String name, String address, double longitude, double latitude, String description, int centreGradeId) {
+    private String city;
+    public CentreDTO(String name, String address, double longitude, double latitude, String description, int centreGradeId, String city) {
         this.name = name;
         this.address = address;
         this.longitude = longitude;
         this.latitude = latitude;
         this.description = description;
         this.centreGradeId = centreGradeId;
+        this.city = city;
     }
 
     public CentreDTO() {
@@ -34,7 +36,7 @@ public class CentreDTO extends Entity {
         centreDTO.setLatitude(centre.getLatitude());
         centreDTO.setDescription(centre.getDescription());
 //        centreDTO.setCentreGradeId(centre.getCentreGradeId());
-
+        centreDTO.setCity(centre.getCity());
         return centreDTO;
     }
 
@@ -99,5 +101,13 @@ public class CentreDTO extends Entity {
 
     public void setCentreGradeId(int centreGradeId) {
         this.centreGradeId = centreGradeId;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

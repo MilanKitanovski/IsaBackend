@@ -20,6 +20,8 @@ public class Centre extends Entity {
     @ManyToOne
     private CentreGrade avgGrade;
 
+    private String city;
+
     public String getName() {
         return name;
     }
@@ -66,5 +68,13 @@ public class Centre extends Entity {
 
     public void setAvgGrade(CentreGrade avgGrade) {
         this.avgGrade = avgGrade;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

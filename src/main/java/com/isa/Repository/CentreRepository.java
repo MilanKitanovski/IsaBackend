@@ -1,12 +1,10 @@
 package com.isa.Repository;
 
 import com.isa.model.Centre;
-import com.isa.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 @Repository
