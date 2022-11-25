@@ -3,6 +3,7 @@ package com.isa.service;
 import com.isa.Repository.CentreRepository;
 import com.isa.model.Centre;
 import com.isa.model.dto.CentreDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +18,8 @@ import java.util.Optional;
 @Service
 public class CentreService {
 
+    @Autowired
     private CentreRepository centreRepository;
-
-    public CentreService(CentreRepository centreRepository) {
-        this.centreRepository = centreRepository;
-    }
-
 
     public Centre addCentre(Centre centre){
         return centreRepository.save(centre);
@@ -77,6 +74,6 @@ public class CentreService {
     }
 */
     public List<Centre> getAllCenters(){
-        return centreRepository.getAll();
+        return centreRepository.findAll();
     }
 }

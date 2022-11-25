@@ -10,7 +10,6 @@ import java.util.Optional;
 @Repository
 public interface CentreRepository extends JpaRepository<Centre, Integer> {
 
-    public List<Centre> getAll();
     public Optional<Centre> findCentreById(int id);
     public Optional<Centre> findCentreByName(String name);
     public Optional<Centre> findCentreByAddress(String address);
