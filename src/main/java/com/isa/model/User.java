@@ -34,6 +34,7 @@ public class User extends Entity {
     private Centre centre;
     @NotNull
     private UserType userType;
+
     private String information;
 
 
@@ -43,8 +44,8 @@ public class User extends Entity {
 
         this.name = name;
         this.surname = surname;
-        this.email = email;
-        this.password = password;
+//        this.email = email;
+//        this.password = password;
         this.address = address;
         this.city = city;
         this.country = country;
@@ -166,7 +167,7 @@ public class User extends Entity {
     }
 
     public String getRole(){
-        return "";
+        return userType.toString();
     }
 
     public Centre getCentre() { return centre; }

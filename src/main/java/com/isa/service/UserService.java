@@ -1,11 +1,18 @@
 package com.isa.service;
 
 import com.isa.Repository.UserRepository;
+import com.isa.config.SecurityUtils;
 import com.isa.model.Centre;
 import com.isa.model.User;
+import com.isa.model.dto.PasswordChangeDTO;
 import com.isa.model.dto.UserDTO;
 import com.isa.model.enums.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.server.util.matcher.PathPatternParserServerWebExchangeMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +23,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
     public List<User> findAll(){
         return  userRepository.findAll();
     }
@@ -76,5 +85,29 @@ public class UserService {
 //    }
 
 
+    public User getCurrentUser() {
+
+        String email = SecurityUtils.getCurrentUserLogin().get();
+
+        return userRepository.getByEmail(email);
+    }
+
+    public boolean updateUserPassword(PasswordChangeDTO passwordChangeDTO){
+        User user = getCurrentUser();
+
+        if (passwordChangeDTO.getOldPassword() == null || passwordChangeDTO.getNewPassword() == null) {
+            return false;
+        }
+
+        BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+        if (!bcpe.matches(passwordChangeDTO.getOldPassword(), user.getPassword())) {
+            return false;
+        }
+
+        user.setPassword(passwordEncoder.encode(passwordChangeDTO.getNewPassword()));
+        userRepository.save(user);
+
+        return true;
+    }
 
 }

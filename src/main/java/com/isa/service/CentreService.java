@@ -23,7 +23,6 @@ public class CentreService {
         this.centreRepository = centreRepository;
     }
 
-
     public Centre addCentre(Centre centre){
         return centreRepository.save(centre);
     }

@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     @Autowired
@@ -37,8 +38,9 @@ public class UserController {
         return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
 
-   @PutMapping(path = "/update-user")
-    public ResponseEntity<User> update(@RequestBody UserDTO userDTO) {
+   @PutMapping(path = "/update-user/{id}")
+   @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<User> update(@PathVariable int id, @RequestBody UserDTO userDTO) {
         return new ResponseEntity<>(userService.update(userDTO), HttpStatus.OK);
     }
 
@@ -75,36 +77,36 @@ public class UserController {
         }
 
         String token = tokenUtil.generateToken(user.getEmail(), user.getUserType().toString());
+//        String email = user.getEmail();
+//        String password = user.getPassword();
+
         LoginDTO responseDTO = new LoginDTO();
         responseDTO.setToken(token);
+//        responseDTO.setEmail(email);
+//        responseDTO.setPassword(password);
         return ResponseEntity.ok(responseDTO);
     }
 
-//    @PutMapping(value = "{id}/passwordChange", consumes = "application/json")
-//    public ResponseEntity<PasswordChangeDTO> updateUserPassword(@RequestBody PasswordChangeDTO passwordChangeDTO, @PathVariable int id) {
-//        User user = userService.findById(id);
-//        if (user.getId() == id) {
-//            if (passwordChangeDTO.getOldPassword() == null || passwordChangeDTO.getNewPassword() == null) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            } else {
-//
-//                BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
-//                if (bcpe.matches(passwordChangeDTO.getOldPassword(), user.getPassword())) {
-//                    userService.changePassword(user.getEmail(), passwordChangeDTO.getNewPassword());
-//                } else {
-//                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//                }
-//                return new ResponseEntity<>(new PasswordChangeDTO(passwordChangeDTO.getOldPassword(), passwordChangeDTO.getNewPassword(), passwordChangeDTO.getUser()), HttpStatus.OK);
-//            }
-//        }
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+    @PutMapping(value = "passwordChange", consumes = "application/json")
+    public ResponseEntity<PasswordChangeDTO> updateUserPassword(@RequestBody PasswordChangeDTO passwordChangeDTO) {
+
+        if(!userService.updateUserPassword(passwordChangeDTO)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(new PasswordChangeDTO(passwordChangeDTO.getOldPassword(), passwordChangeDTO.getNewPassword1(), passwordChangeDTO.getNewPassword2(), passwordChangeDTO.getUser()), HttpStatus.OK);
+    }
 
     @GetMapping(path = "/{email}")
     public ResponseEntity<UserDTO> findUserByEmail (@PathVariable String email) {
 
         User user = userService.findOneByEmail(email);
         return new ResponseEntity<>(new UserDTO().covert(user), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/current")
+    public ResponseEntity<?> getCurrentUser() {
+        return new ResponseEntity<>(userService.getCurrentUser(), HttpStatus.OK);
     }
 
 
