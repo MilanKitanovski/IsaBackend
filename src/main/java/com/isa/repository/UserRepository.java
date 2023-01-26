@@ -1,13 +1,9 @@
-package com.isa.Repository;
+package com.isa.repository;
 
 import com.isa.model.User;
-import com.isa.model.enums.Gender;
-import com.isa.model.enums.UserType;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.awt.print.Pageable;
 import java.util.Optional;
 
 @Repository
@@ -22,6 +18,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public Optional<User> findOneByEmail(String email);
 
     public User getByEmail(String email);
+
 
 
 

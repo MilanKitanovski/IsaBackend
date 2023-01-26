@@ -1,16 +1,15 @@
 package com.isa.controller;
 
 import com.isa.model.User;
-import com.isa.model.dto.LoginDTO;
-import com.isa.model.dto.PasswordChangeDTO;
-import com.isa.model.dto.UserDTO;
+import com.isa.dto.LoginDTO;
+import com.isa.dto.PasswordChangeDTO;
+import com.isa.dto.UserDTO;
 import com.isa.security.TokenUtil;
 import com.isa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,32 +76,30 @@ public class UserController {
         }
 
         String token = tokenUtil.generateToken(user.getEmail(), user.getUserType().toString());
-//        String email = user.getEmail();
-//        String password = user.getPassword();
+
 
         LoginDTO responseDTO = new LoginDTO();
         responseDTO.setToken(token);
-//        responseDTO.setEmail(email);
-//        responseDTO.setPassword(password);
+
         return ResponseEntity.ok(responseDTO);
     }
 
-    @PutMapping(value = "passwordChange", consumes = "application/json")
+    @PutMapping(value = "/passwordChange", consumes = "application/json")
     public ResponseEntity<PasswordChangeDTO> updateUserPassword(@RequestBody PasswordChangeDTO passwordChangeDTO) {
 
         if(!userService.updateUserPassword(passwordChangeDTO)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(new PasswordChangeDTO(passwordChangeDTO.getOldPassword(), passwordChangeDTO.getNewPassword1(), passwordChangeDTO.getNewPassword2(), passwordChangeDTO.getUser()), HttpStatus.OK);
+        return new ResponseEntity<>(new PasswordChangeDTO(passwordChangeDTO.getOldPassword(), passwordChangeDTO.getNewPassword(),passwordChangeDTO.getUser()), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{email}")
-    public ResponseEntity<UserDTO> findUserByEmail (@PathVariable String email) {
-
-        User user = userService.findOneByEmail(email);
-        return new ResponseEntity<>(new UserDTO().covert(user), HttpStatus.OK);
-    }
+//    @GetMapping(path = "/{email}")
+//    public ResponseEntity<UserDTO> findUserByEmail (@PathVariable String email) {
+//
+//        User user = userService.findOneByEmail(email);
+//        return new ResponseEntity<>(new UserDTO().covert(user), HttpStatus.OK);
+//    }
 
     @GetMapping(path = "/current")
     public ResponseEntity<?> getCurrentUser() {

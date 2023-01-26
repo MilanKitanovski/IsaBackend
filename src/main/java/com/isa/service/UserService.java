@@ -1,20 +1,14 @@
 package com.isa.service;
 
-import com.isa.Repository.UserRepository;
+import com.isa.repository.UserRepository;
 import com.isa.config.SecurityUtils;
-import com.isa.model.Centre;
 import com.isa.model.User;
-import com.isa.model.dto.PasswordChangeDTO;
-import com.isa.model.dto.UserDTO;
-import com.isa.model.enums.UserType;
+import com.isa.dto.PasswordChangeDTO;
+import com.isa.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.server.util.matcher.PathPatternParserServerWebExchangeMatcher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +33,7 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+
     public User update (UserDTO dto) {
 
         User user = userRepository.findById(dto.getId());
@@ -55,6 +50,7 @@ public class UserService {
         //user.setCentre(dto.getCentreId()));
         user.setUserType(dto.getUserType());
         user.setInformation(dto.getInformation());
+        user.setProfession(dto.getProfession());
 
         return userRepository.save(user);
     }

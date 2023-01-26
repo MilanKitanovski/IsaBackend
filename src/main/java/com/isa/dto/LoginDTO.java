@@ -1,4 +1,4 @@
-package com.isa.model.dto;
+package com.isa.dto;
 
 import java.sql.Struct;
 

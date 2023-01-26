@@ -1,4 +1,4 @@
-package com.isa.model.dto;
+package com.isa.dto;
 
 import com.isa.model.Entity;
 import com.isa.model.enums.UserCategory;

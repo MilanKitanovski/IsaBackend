@@ -1,9 +1,5 @@
 package com.isa;
 
-import com.isa.Repository.UserRepository;
-import com.isa.model.User;
-import com.isa.model.enums.Gender;
-import com.isa.model.enums.UserType;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

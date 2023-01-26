@@ -1,5 +1,5 @@
 package com.isa.config;
-import com.isa.Repository.UserRepository;
+import com.isa.repository.UserRepository;
 import com.isa.model.User;
 import com.isa.security.Authority;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         String password = user.get().getPassword();
 
         builder.password(password);
-        builder.authorities(user.get().getRole().toString());
+        builder.authorities(user.get().getRole());
 
         return builder.build();
     }

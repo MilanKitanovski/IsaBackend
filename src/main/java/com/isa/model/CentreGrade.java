@@ -6,7 +6,7 @@ import javax.persistence.ManyToOne;
 public class CentreGrade extends Entity {
     @ManyToOne
     private Centre centre;
-    private int grade;
+    private double grade;
 
     public Centre getCentre() {
         return centre;
@@ -16,11 +16,11 @@ public class CentreGrade extends Entity {
         this.centre = centre;
     }
 
-    public int getGrade() {
+    public double getGrade() {
         return grade;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(double grade) {
         this.grade = grade;
     }
 }

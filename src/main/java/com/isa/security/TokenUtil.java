@@ -20,8 +20,8 @@ public class TokenUtil {
     @Value("secret")
     public String SECRET;
 
-    @Value("3600000")  //3600s = 1h
-    private int EXPIRES_IN;
+    @Value("36000000000")  //TODO 3600s = 1h
+    private long EXPIRES_IN;
 
     @Value("Authorization")
     private String AUTH_HEADER;
@@ -39,7 +39,7 @@ public class TokenUtil {
                 .setAudience(generateAudience())
                 .setIssuedAt(new Date())
                 .setExpiration(generateExpirationDate())
-                .claim("roles", role)
+                .claim("role", role)
                 .signWith(SIGNATURE_ALGORITHM, SECRET).compact();
     }
 
@@ -125,7 +125,7 @@ public class TokenUtil {
         return expiration;
     }
 
-    public int getExpiredIn() { return EXPIRES_IN; }
+    public long getExpiredIn() { return EXPIRES_IN; }
 
     public String getToken(HttpServletRequest request) {
         String authHeader = getAuthHeaderFromHeader(request);

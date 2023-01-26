@@ -1,8 +1,12 @@
 package com.isa.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import javax.persistence.ManyToOne;
+import java.util.Date;
 
 @javax.persistence.Entity
 public class Centre extends Entity {
@@ -17,10 +21,35 @@ public class Centre extends Entity {
     private double latitude;
     @NotNull
     private String description;
-    @ManyToOne
-    private CentreGrade avgGrade;
+    private double avgGrade;
 
     private String city;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @Column
+    private Date startWork;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @Column
+    private Date endWork;
+
+    public Centre() {
+    }
+
+    public Date getStartWork() {
+        return startWork;
+    }
+
+    public void setStartWork(Date startWork) {
+        this.startWork = startWork;
+    }
+
+    public Date getEndWork() {
+        return endWork;
+    }
+
+    public void setEndWork(Date endWork) {
+        this.endWork = endWork;
+    }
 
     public String getName() {
         return name;
@@ -62,11 +91,11 @@ public class Centre extends Entity {
         this.description = description;
     }
 
-    public CentreGrade getAvgGrade() {
+    public double getAvgGrade() {
         return avgGrade;
     }
 
-    public void setAvgGrade(CentreGrade avgGrade) {
+    public void setAvgGrade(double avgGrade) {
         this.avgGrade = avgGrade;
     }
 
